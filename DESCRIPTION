@@ -1,0 +1,20 @@
+Package: BLCOP
+Type: Package
+Title: Black-Litterman and Copula Opinion Pooling Frameworks
+Version: 0.3.1
+Date: 2015-02-04
+Author: Francisco Gochez, Richard Chandler-Mant, Suchen Jin, Jinjing Xie
+Maintainer: Ava Yang <ayang@mango-solutions.com>
+Description: An implementation of the Black-Litterman Model and Atilio
+    Meucci's copula opinion pooling framework.
+Depends: methods, MASS, quadprog
+Imports: RUnit (>= 0.4.22), timeSeries, fBasics, fMultivar, fPortfolio
+        (>= 3011.81)
+Suggests: sn, corpcor, mnormt
+License: GPL-3
+LazyData: yes
+LazyLoad: yes
+Repository: CRAN
+Packaged: 2015-02-04 08:21:00 UTC; Administrator
+NeedsCompilation: no
+Date/Publication: 2015-02-04 21:10:04
