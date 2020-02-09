@@ -19,7 +19,7 @@ addBLViews <- function
 {
 
     # try to force the view input to be a matrix just in case if its a vector
-    if(class(pickMatrix) == "numeric")
+    if(!is(pickMatrix, "matrix"))
         pickMatrix <- matrix(pickMatrix, nrow = 1, ncol = length(pickMatrix), dimnames = list(NULL, names(pickMatrix)) )  
         
     

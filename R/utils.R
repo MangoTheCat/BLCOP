@@ -40,7 +40,7 @@ newPMatrix <- function
 
 .blockDiag <- function(A,B)
 {
-    stopifnot(class(A) == "matrix" && class(B) == "matrix")
+    stopifnot(is(A, "matrix") && is(B, "matrix"))
     x <- ncol(A) + ncol(B)
     y <- nrow(A) + nrow(B)
     z <- matrix(0, ncol = x, nrow = y)
