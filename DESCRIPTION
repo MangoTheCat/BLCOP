@@ -1,7 +1,7 @@
 Package: BLCOP
 Type: Package
 Title: Black-Litterman and Copula Opinion Pooling Frameworks
-Version: 0.3.1
+Version: 0.3.2
 Date: 2020-02-04
 Author: Francisco Gochez, Richard Chandler-Mant, Suchen Jin, Jinjing Xie
 Maintainer: Ava Yang <ayang@mango-solutions.com>
