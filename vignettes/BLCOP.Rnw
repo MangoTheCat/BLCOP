@@ -73,10 +73,10 @@ stocks, 2 of which are technology stocks and the other 4 of which are from the f
 We will create a \code{BLViews} class object with the \texttt{BLViews}
 constructor function.  Its arguments are the ``pick'' matrix, a vector of confidences, the vector ``q'', and the the names of the assets in one's ``universe''. Please note that the following examples may require the suggested fPortfolio and mnormt packages.
 \SweaveOpts{keep.source=TRUE}
-<<echo=FALSE,print=FALSE>>=
-require(fPortfolio)
-require(BLCOP)
-require(mnormt)
+<<echo=TRUE,print=FALSE>>=
+library(fPortfolio)
+library(BLCOP)
+library(mnormt)
 @
 <<echo=TRUE,print=FALSE>>=
 pickMatrix <- matrix(c(1/2, -1, 1/2, rep(0, 3)), nrow = 1, ncol = 6 )
@@ -89,7 +89,7 @@ calculate the variance-covariance matrix of these through some standard estimati
 Here we use \rfun{cov.mve} from the \code{MASS} package.
 <<echo=TRUE,print=FALSE>>=
 priorMeans <- rep(0, 6)
-priorVarcov <- cov.mve(monthlyReturns)$cov
+priorVarcov <- MASS::cov.mve(monthlyReturns)$cov
 @
 %$
 We can now calculate the posterior market distribution using the \rfun{posteriorEst}.  This takes as parameters
