@@ -1,3 +1,7 @@
+New in version 0.3.2:
+- Fixed CRAN check error about checking class of an object. 
+- Improved documentation.
+
 New in version 0.3.1:
 - No new functionality was added. Vignette document updated. 
 

@@ -31,6 +31,7 @@ CAPMList(returns, marketIndex, riskFree = NULL, regFunc = BLCOPOptions("regFunc"
 \author{Francisco Gochez <fgochez@mango-solutions.com>}
 
 \examples{
+    library(MASS)
     CAPMList(monthlyReturns, marketIndex = sp500Returns, riskFree = US13wTB, regFunc = "rlm")
 }
 \keyword{utilities}
