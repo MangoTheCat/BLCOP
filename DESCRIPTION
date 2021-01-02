@@ -6,7 +6,7 @@ Date: 2020-02-04
 Authors@R:
     c(person(given = "Francisco",
              family = "Gochez",
-             role = c("cre", "aut")),
+             role = c("aut")),
       person(given = "Richard",
              family = "Chandler-Mant",
              role = "aut"),
@@ -23,7 +23,7 @@ Authors@R:
              comment = "Previous maintainer"),
       person(given = "Joe",
              family = "Russell",
-             role = "ctb",
+             role = "cre",
              email = "jrussell@gmail.com"))
 Description: An implementation of the Black-Litterman Model and Atilio
     Meucci's copula opinion pooling framework.
