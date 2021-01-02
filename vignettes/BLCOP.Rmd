@@ -1,6 +1,7 @@
 ---
 title: "Notes on the BLCOP Package"
 author: "Francisco Gochez"
+date: "2015-02-05"
 output: rmarkdown::html_vignette
 bibliography: references.bib
 vignette: >
@@ -10,7 +11,13 @@ vignette: >
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  echo = TRUE,
+  fig.align = "center", 
+  fig.width = 6, 
+  fig.height = 6)
 ```
 
 ## Introduction
@@ -58,57 +65,56 @@ Let us now see how these ideas are implemented in the **BLCOP** package.
 
 The implementation of the Black-Litterman model in BLCOP is based on objects that represent views on the market and objects that represent the posterior
 distribution of the market after blending the views.  We will illustrate this with a simple example.  Suppose that an analyst wishes to form views on 6
-stocks, 2 of which are technology stocks and the other 4 of which are from the financial sector. Initially, she believes that the average of the 2 tech stocks will outperform one of the financial stocks, say $\frac{1}{2}( \textrm{DELL} + \textrm{IBM}) - \textrm{MS} \sim N(0.06,  0.01)$.  
-We will create a **BLViews** class object with the `BLViews()`
+stocks, 2 of which are technology stocks and the other 4 of which are from the financial sector. Initially, she believes that the average of the 2 tech stocks will outperform one of the financial stocks, say $\frac{1}{2}( \textrm{DELL} + \textrm{IBM}) - \textrm{MS} \sim N(0.06,  0.01)$. We will create a **BLViews** class object with the `BLViews()`
 constructor function.  Its arguments are the "pick" matrix, a vector of confidences, the vector "q", and the the names of the assets in one's "universe". Please note that the following examples may require the suggested `{fPortfolio}` and `{mnormt}` packages.
 
-```{r, echo = TRUE, print = FALSE}
-# library(fPortfolio)
-# library(BLCOP)
-# library(mnormt)
+```{r, message = FALSE, warning = FALSE, print = FALSE}
+library(fPortfolio)
+library(BLCOP)
+library(mnormt)
 ```
 
-```{r, echo = TRUE, print = FALSE}
-# pickMatrix <- matrix(c(1/2, -1, 1/2, rep(0, 3)), nrow = 1, ncol = 6 )
-# views <- BLViews(P = pickMatrix, q = 0.06,confidences =  100, 
-# assetNames = colnames(monthlyReturns))
-# views
+```{r, print = FALSE}
+pickMatrix <- matrix(c(1/2, -1, 1/2, rep(0, 3)), nrow = 1, ncol = 6 )
+views <- BLViews(P = pickMatrix, q = 0.06,confidences =  100,
+assetNames = colnames(monthlyReturns))
+views
 ```
 
 Next, we need to determine the "prior" distribution of these assets. The analyst may for instance decide to set these means to 0, and then calculate the variance-covariance matrix of these through some standard estimation procedure (e.g. exponentially weighted moving average).
 Here we use `cov.mve()` from the `{MASS}` package.
 
-```{r, echo = TRUE, print = FALSE}
-# priorMeans <- rep(0, 6)
-# priorVarcov <- MASS::cov.mve(monthlyReturns)$cov
+```{r, print = FALSE}
+priorMeans <- rep(0, 6)
+priorVarcov <- MASS::cov.mve(monthlyReturns)$cov
 ```
 
 We can now calculate the posterior market distribution using the `posteriorEst()`.  This takes as parameters
 the view object, the prior covariance and mean, and "tau" ^[An additional parameter called **kappa** will be discussed shortly]. The procedure for setting $\tau$ is the subject of some controversy in the literature, but here we shall set it to $1/2$.
 
-```{r, echo = TRUE, print = TRUE}
-# marketPosterior <- posteriorEst(views = views, sigma = priorVarcov, 
-#  mu = priorMeans, tau = 1/2)
+```{r, print = TRUE}
+marketPosterior <- posteriorEst(views = views, sigma = priorVarcov,
+ mu = priorMeans, tau = 1/2)
+marketPosterior
 ```
 
 Now suppose that we wish to add another view, this time on the average of the four financial stocks.  This can be done
 conveniently with `addBLViews()` as in the following example:
 
-```{r, echo = TRUE, print = FALSE}
-# finViews <- matrix(ncol = 4, nrow = 1, dimnames = list(NULL, c("C","JPM","BAC","MS")))
-# finViews[,1:4] <- rep(1/4,4)
-# views <- addBLViews(finViews, 0.15, 90, views)
-# views
+```{r, print = FALSE}
+finViews <- matrix(ncol = 4, nrow = 1, dimnames = list(NULL, c("C","JPM","BAC","MS")))
+finViews[,1:4] <- rep(1/4,4)
+views <- addBLViews(finViews, 0.15, 90, views)
+views
 ```
 
 
-We will now recompute the posterior, but this time using the captial asset pricing model to compute the ``prior'' means.  Rather
-than manually computing these, it is convenient to use the `BLPosterior()` wrapper function.  It will compute these "alphas", as well
-as the variance-covariance matrix of a returns series, and will then call `poseriorEst()` automatically.
+We will now recompute the posterior, but this time using the captial asset pricing model to compute the "prior" means.  Rather than manually computing these, it is convenient to use the `BLPosterior()` wrapper function.  It will compute these "alphas", as well as the variance-covariance matrix of a returns series, and will then call `poseriorEst()` automatically.
 
-```{r, echo = TRUE, print = TRUE}
-# marketPosterior <- BLPosterior(as.matrix(monthlyReturns), views, tau = 1/2, 
-# 	marketIndex = as.matrix(sp500Returns),riskFree = as.matrix(US13wTB))
+```{r, print = TRUE}
+marketPosterior <- BLPosterior(as.matrix(monthlyReturns), views, tau = 1/2,
+	marketIndex = as.matrix(sp500Returns),riskFree = as.matrix(US13wTB))
+marketPosterior
 ```
 
 Both `BLPosterior()` and `posteriorEst()` have a **kappa** parameter which may be used to replace the matrix $\Omega$ of confidences in the posterior calculation. If it is greater than 0, then $\Omega$ is set to $\kappa P^{T} \Sigma P$ rather than 
@@ -116,26 +122,26 @@ $diag(\sigma_1^2, \sigma_2^2, ..., \sigma_2^n)$. This choice of $\Omega$ is sugg
 
 A user may also be interested in comparing allocations that are optimal under the prior and posterior distributions.  The `{fPortfolio}` package of the Rmetrics project ([@fPort]), for example, has a rich set of functionality available for portfolio optimization.  The helper function `optimalPortfolios.fPort()` was created to wrap these functions for exploratory purposes.  
 
-```{r, echo = TRUE, print = TRUE, fig = TRUE}
-# optPorts <- optimalPortfolios.fPort(marketPosterior, optimizer = "tangencyPortfolio")
-# par(mfcol = c(2, 1))
-# weightsPie(optPorts$priorOptimPortfolio)
-# weightsPie(optPorts$posteriorOptimPortfolio)
+```{r, print = TRUE, fig = TRUE, fig.height = 3}
+optPorts <- optimalPortfolios.fPort(marketPosterior, optimizer = "tangencyPortfolio")
+optPorts
+weightsPie(optPorts$priorOptimPortfolio)
+weightsPie(optPorts$posteriorOptimPortfolio)
 ```
 
 Additional parameters may be passed into function to control the optimization process.  Users are referred to the `{fPortfolio}` package documentation for details.
 
 ```{r, echo=TRUE, print=FALSE, fig=FALSE}
-# optPorts2 <- optimalPortfolios.fPort(marketPosterior, 
-# 		constraints = "minW[1:6]=0.1", optimizer = "minriskPortfolio")
-# optPorts2
+optPorts2 <- optimalPortfolios.fPort(marketPosterior,
+		constraints = "minW[1:6]=0.1", optimizer = "minriskPortfolio")
+optPorts2
 ```
 
 Finally, density plots of marginal prior and posterior distributions can be generated with `densityPlots()`. As we will see in the next section,
 this gives more interesting results when used with copula opinion pooling.
  
 ```{r, echo=TRUE, print=FALSE, fig=TRUE}
-# densityPlots(marketPosterior, assetsSel = "JPM")
+densityPlots(marketPosterior, assetsSel = "JPM")
 ```
 
 ## Overview of Copula Opinion Pooling
@@ -151,6 +157,7 @@ Copula opinion pooling is an alternative way to blend analyst views on market di
 Nevertheless, all of this comes at a price.  We can no longer use closed-form expressions for calculating the posterior distribution of the market
 and hence must rely on simulation instead.  Before proceeding to the implementation however let us look at the theory.  Readers are referred to 
 [@MeucciCOP] for a more detailed discussion.
+
 As before, suppose that we have a set of $n$ assets whose returns are represented by a set of random variables $A = \{a_1, a_2, ..., a_n \}$.  As in Black-Litterman, we suppose that $A$ has some prior joint distribution whose c.d.f we will denote by $\Phi_A$.  Denote the marginals of this distribution by
 $\phi_i$.  An analyst forms his views on linear combinations of future *realizations* of the values of $A$ by assigning subjective probability
 distributions to these linear combinations.  That is we form views of the form $p_{i,1} a_1 + p_{i,2} a_2 +... + p_{i,n} a_n \sim \theta_i$, where 
@@ -187,13 +194,13 @@ of the 4 indices and $\delta = 2.5$.  For simplicity we will simply take
 $w_{eq} = (1/4, 1/4, 1/4, 1/4)$.
 
 ```{r, echo=TRUE, print=FALSE}
-# dispersion <- c(.376,.253,.360,.333,.360,.600,.397,.396,.578,.775) / 1000
-# sigma <- BLCOP:::.symmetricMatrix(dispersion, dim = 4)
-# caps <- rep(1/4, 4)
-# mu <- 2.5 * sigma %*% caps
-# dim(mu) <- NULL
-# marketDistribution <- mvdistribution("mt", mean = mu, S = sigma, df = 5 )
-# class(marketDistribution)
+dispersion <- c(.376,.253,.360,.333,.360,.600,.397,.396,.578,.775) / 1000
+sigma <- BLCOP:::.symmetricMatrix(dispersion, dim = 4)
+caps <- rep(1/4, 4)
+mu <- 2.5 * sigma %*% caps
+dim(mu) <- NULL
+marketDistribution <- mvdistribution("mt", mean = mu, S = sigma, df = 5 )
+class(marketDistribution)
 ```
 
 The class `mvdistribution` works with R multivariate probability distribution "suffixes".  `mt` is the R "name"/"suffix" of the multivariate 
@@ -203,23 +210,23 @@ univariate distributions in a similar way and is used to create the view distrib
 the DAX.
 
 ```{r, echo=TRUE, print=FALSE}
-# pick <- matrix(0, ncol = 4, nrow = 1, 
-# 	dimnames = list(NULL, c("SP", "FTSE", "CAC", "DAX")))
-# pick[1,"DAX"] <- 1
-# viewDist <- list(distribution("unif", min = -0.02, max = 0))
-# views <- COPViews(pick, viewDist = viewDist, confidences = 0.2, 
-# 	assetNames = c("SP", "FTSE", "CAC", "DAX"))
+pick <- matrix(0, ncol = 4, nrow = 1,
+	dimnames = list(NULL, c("SP", "FTSE", "CAC", "DAX")))
+pick[1,"DAX"] <- 1
+viewDist <- list(distribution("unif", min = -0.02, max = 0))
+views <- COPViews(pick, viewDist = viewDist, confidences = 0.2,
+	assetNames = c("SP", "FTSE", "CAC", "DAX"))
 ```
 
 As can be seen, the view distributions are given as a list of `distribution` class objects, and the confidences set the $tau$'s described previously.
 Here we have assigned a $U(-0.02, 0)$ distribution to our view with confidence $0.2$. Additional views can be added with `addCOPViews()`.
 
 ```{r, echo=TRUE, print=FALSE}
-# newPick <- matrix(0, 1, 2)
-# dimnames(newPick) <- list(NULL, c("SP", "FTSE"))
-# newPick[1,] <- c(1, -1) # add a relative view
-# views <- addCOPViews(newPick, 
-# 	list(distribution("norm", mean = 0.05, sd = 0.02)), 0.5, views)
+newPick <- matrix(0, 1, 2)
+dimnames(newPick) <- list(NULL, c("SP", "FTSE"))
+newPick[1,] <- c(1, -1) # add a relative view
+views <- addCOPViews(newPick,
+	list(distribution("norm", mean = 0.05, sd = 0.02)), 0.5, views)
 ```
 
 The posterior is calculated with `COPPosterior()`, and the updated marginal distributions can be visualized with `densityPlots()`
@@ -227,8 +234,8 @@ once again.  The calculation is performed by simulation, based on the ideas desc
 are stored in the `posteriorSims` of the class `COPResult` that is returned by `COPPosterior()`.
 
 ```{r, echo=TRUE, print=FALSE, fig=TRUE}
-# marketPosterior <- COPPosterior(marketDistribution, views, numSimulations = 50000)
-# densityPlots(marketPosterior, assetsSel = 4)
+marketPosterior <- COPPosterior(marketDistribution, views, numSimulations = 50000)
+densityPlots(marketPosterior, assetsSel = 4)
 ```
 
 ## Future developments
