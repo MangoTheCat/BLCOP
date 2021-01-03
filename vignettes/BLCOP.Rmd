@@ -214,8 +214,8 @@ pick <- matrix(0, ncol = 4, nrow = 1,
 	dimnames = list(NULL, c("SP", "FTSE", "CAC", "DAX")))
 pick[1,"DAX"] <- 1
 viewDist <- list(distribution("unif", min = -0.02, max = 0))
-views <- COPViews(pick, viewDist = viewDist, confidences = 0.2,
-	assetNames = c("SP", "FTSE", "CAC", "DAX"))
+# views <- COPViews(pick, viewDist = viewDist, confidences = 0.2,
+# 	assetNames = c("SP", "FTSE", "CAC", "DAX"))
 ```
 
 As can be seen, the view distributions are given as a list of `distribution` class objects, and the confidences set the $tau$'s described previously.
