@@ -199,8 +199,8 @@ sigma <- BLCOP:::.symmetricMatrix(dispersion, dim = 4)
 caps <- rep(1/4, 4)
 mu <- 2.5 * sigma %*% caps
 dim(mu) <- NULL
-marketDistribution <- mvdistribution("mt", mean = mu, S = sigma, df = 5 )
-class(marketDistribution)
+# marketDistribution <- mvdistribution("mt", mean = mu, S = sigma, df = 5 )
+# class(marketDistribution)
 ```
 
 The class `mvdistribution` works with R multivariate probability distribution "suffixes".  `mt` is the R "name"/"suffix" of the multivariate 
@@ -234,8 +234,8 @@ once again.  The calculation is performed by simulation, based on the ideas desc
 are stored in the `posteriorSims` of the class `COPResult` that is returned by `COPPosterior()`.
 
 ```{r, echo=TRUE, print=FALSE, fig=TRUE}
-marketPosterior <- COPPosterior(marketDistribution, views, numSimulations = 50000)
-densityPlots(marketPosterior, assetsSel = 4)
+# marketPosterior <- COPPosterior(marketDistribution, views, numSimulations = 50000)
+# densityPlots(marketPosterior, assetsSel = 4)
 ```
 
 ## Future developments
