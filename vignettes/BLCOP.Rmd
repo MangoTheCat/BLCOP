@@ -210,10 +210,10 @@ univariate distributions in a similar way and is used to create the view distrib
 the DAX.
 
 ```{r, echo=TRUE, print=FALSE}
-pick <- matrix(0, ncol = 4, nrow = 1,
-	dimnames = list(NULL, c("SP", "FTSE", "CAC", "DAX")))
-pick[1,"DAX"] <- 1
-viewDist <- list(distribution("unif", min = -0.02, max = 0))
+# pick <- matrix(0, ncol = 4, nrow = 1,
+# 	dimnames = list(NULL, c("SP", "FTSE", "CAC", "DAX")))
+# pick[1,"DAX"] <- 1
+# viewDist <- list(distribution("unif", min = -0.02, max = 0))
 # views <- COPViews(pick, viewDist = viewDist, confidences = 0.2,
 # 	assetNames = c("SP", "FTSE", "CAC", "DAX"))
 ```
@@ -222,9 +222,9 @@ As can be seen, the view distributions are given as a list of `distribution` cla
 Here we have assigned a $U(-0.02, 0)$ distribution to our view with confidence $0.2$. Additional views can be added with `addCOPViews()`.
 
 ```{r, echo=TRUE, print=FALSE}
-newPick <- matrix(0, 1, 2)
-dimnames(newPick) <- list(NULL, c("SP", "FTSE"))
-newPick[1,] <- c(1, -1) # add a relative view
+# newPick <- matrix(0, 1, 2)
+# dimnames(newPick) <- list(NULL, c("SP", "FTSE"))
+# newPick[1,] <- c(1, -1) # add a relative view
 # views <- addCOPViews(newPick,
 # 	list(distribution("norm", mean = 0.05, sd = 0.02)), 0.5, views)
 ```
