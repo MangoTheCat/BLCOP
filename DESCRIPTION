@@ -29,8 +29,6 @@ Description: An implementation of the Black-Litterman Model and Atilio
     Meucci's copula opinion pooling framework.
 License: MIT + file LICENSE
 LazyData: true
-LazyLoad: yes
-Repository: CRAN
 NeedsCompilation: no
 URL: https://github.com/mangothecat/BLCOP
 BugReports: https://github.com/mangothecat/BLCOP/issues
