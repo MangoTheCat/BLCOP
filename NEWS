@@ -1,3 +1,7 @@
+New in version 0.3.3:
+- Rework broken LaTeX vignettes into RMarkdown, removing LaTeX dependency.
+- Add R CMD check to GitHub actions 
+
 New in version 0.3.2:
 - Fixed CRAN check error about checking class of an object. 
 - Improved documentation.

@@ -1,18 +1,49 @@
 Package: BLCOP
 Type: Package
 Title: Black-Litterman and Copula Opinion Pooling Frameworks
-Version: 0.3.2
-Date: 2020-02-04
-Author: Francisco Gochez, Richard Chandler-Mant, Suchen Jin, Jinjing Xie
-Maintainer: Ava Yang <ayang@mango-solutions.com>
+Version: 0.3.3
+Authors@R:
+    c(person(given = "Francisco",
+             family = "Gochez",
+             role = c("aut")),
+      person(given = "Richard",
+             family = "Chandler-Mant",
+             role = "aut"),
+      person(given = "Suchen",
+             family = "Jin",
+             role = "aut"),
+      person(given = "Jinjing",
+             family = "Xie",
+             role = "aut"),
+      person(given = "Ava",
+             family = "Yang",
+             role = "ctb",
+             email = "ayang@mango-solutions.com",
+             comment = "Previous maintainer"),
+      person(given = "Joe",
+             family = "Russell",
+             role = "cre",
+             email = "jrussell@gmail.com"))
 Description: An implementation of the Black-Litterman Model and Atilio
     Meucci's copula opinion pooling framework.
-Imports: methods, MASS, quadprog, RUnit (>= 0.4.22), timeSeries, fBasics, fMultivar, fPortfolio
-        (>= 3011.81)
-Suggests: sn, corpcor, mnormt
-License: GPL-3
-LazyData: yes
-LazyLoad: yes
-Repository: CRAN
+License: MIT + file LICENSE
+LazyData: true
 NeedsCompilation: no
-
+URL: https://github.com/mangothecat/BLCOP
+BugReports: https://github.com/mangothecat/BLCOP/issues
+Imports: 
+  methods, 
+  MASS,
+  quadprog,
+  RUnit (>= 0.4.22),
+  timeSeries,
+  fBasics,
+  fMultivar,
+  fPortfolio (>= 3011.81),
+  rmarkdown,
+  knitr
+Suggests: 
+  sn, 
+  corpcor, 
+  mnormt
+VignetteBuilder: knitr
