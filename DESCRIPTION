@@ -2,7 +2,6 @@ Package: BLCOP
 Type: Package
 Title: Black-Litterman and Copula Opinion Pooling Frameworks
 Version: 0.3.3
-Date: 2020-02-04
 Authors@R:
     c(person(given = "Francisco",
              family = "Gochez",

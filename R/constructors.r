@@ -50,7 +50,7 @@ distribution <- function
     
     if("try-error" %in% class(samplingFun))
         stop(paste(samplingFun, "seems not to be a function!" ))
-    if(any(!exists(distFunctions[-1])))
+    if(!all(vapply(distFunctions[-1], exists, logical(1))))
         warning("Some functions associated to this distribution could not be found")
     
     # extract the parameters passed in through the ellipsis as a named vector.  Then check that the sampling function actually accepts
@@ -82,7 +82,7 @@ mvdistribution <- function
     distFunctions <- paste(c("r" ,"d", "p", "q"), RName, sep = "")
     if(!exists(distFunctions[1]))
         stop("Sampling function for this distribution does not exist!")
-    if(any(!exists(distFunctions[-1])))
+    if(!all(vapply(distFunctions[-1], exists, logical(1))))
         warning("Some functions associated to this distribution could not be found")
     
     samplingFun <- try(match.fun(distFunctions[1]))    
