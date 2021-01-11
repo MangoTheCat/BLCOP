@@ -22,7 +22,14 @@ knitr::opts_chunk$set(
 
 <!-- badges: end -->
 
-The goal of BLCOP is to ...
+The `{BLCOP}` package is an implementation of the Black-Litterman and copula opinion pooling frameworks. The Black-Litterman model was devised in 1992 by Fisher Black and Robert Litterman. Their goal was to create a systematic method of specifying and then incorporating analyst/portfolio manager views into the estimation of market parameters.
+
+* `BLViews()` and `COPViews()` construct views objects
+* `addBLViews()` and `addCOPViews()` allow more views to be added to existing objects
+* `distribution()` and `mvdistribution()` create `distribution` and `mvdistribution` objects 
+* `BLPosterior()` calculates the posterior distribution using the Black-Litterman model
+* `COPPosterior()` calculates the posterior distribution using copula opinion pooling
+
 
 ## Installation
 
