@@ -47,9 +47,23 @@ devtools::install_github("MangoTheCat/BLCOP")
 ```
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
-
-```{r example}
+```{r example, R.options = list(width = 96)}
 library(BLCOP)
-## basic example code
+
+# For a matrix of monthly returns for 6 assets
+head(monthlyReturns)
+
+# Define a pick matrix (a vector of confidences)
+pickMatrix <- matrix(c(1/2, -1, 1/2, 0, 0, 0), 
+                     nrow = 1, 
+                     ncol = 6)
+
+# Create a views object
+views <- BLViews(P = pickMatrix,
+                 q = 0.06, 
+                 confidences = 100,
+                 assetNames = colnames(monthlyReturns))
+
+# Determine the posterior distribution of these assets
+BLPosterior(monthlyReturns, views, tau = 1/2, marketIndex = sp500Returns)
 ```
