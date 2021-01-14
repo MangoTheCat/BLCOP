@@ -23,7 +23,7 @@ Authors@R:
       person(given = "Joe",
              family = "Russell",
              role = "cre",
-             email = "jrussell@gmail.com"))
+             email = "jrussell@mango-solutions.com"))
 Description: An implementation of the Black-Litterman Model and Atilio
     Meucci's copula opinion pooling framework.
 License: MIT + file LICENSE
