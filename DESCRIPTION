@@ -5,7 +5,7 @@ Version: 0.3.3
 Authors@R:
     c(person(given = "Francisco",
              family = "Gochez",
-             role = c("aut")),
+             role = "aut"),
       person(given = "Richard",
              family = "Chandler-Mant",
              role = "aut"),
@@ -24,8 +24,11 @@ Authors@R:
              family = "Russell",
              role = "cre",
              email = "jrussell@mango-solutions.com"))
-Description: An implementation of the Black-Litterman Model and Atilio
-    Meucci's copula opinion pooling framework.
+Description: An implementation of the Black-Litterman Model and Attilio
+    Meucci's copula opinion pooling framework as described in
+    Meucci, Attilio (2005) <doi:10.2139/ssrn.848407>,
+    Meucci, Attilio (2006) <doi:10.2139/ssrn.872577> and
+    Meucci, Attilio (2008) <doi:10.2139/ssrn.1117574>.
 License: MIT + file LICENSE
 LazyData: true
 NeedsCompilation: no
